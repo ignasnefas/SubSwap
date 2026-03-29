@@ -21,13 +21,13 @@ const TYPE_LABELS: Record<GrayAltType, string> = {
 };
 
 const TYPE_COLORS: Record<GrayAltType, string> = {
-  "torrent-public": "bg-orange-500/15 text-orange-300 border-orange-500/30",
-  "torrent-private": "bg-red-500/15 text-red-300 border-red-500/30",
-  streaming: "bg-purple-500/15 text-purple-300 border-purple-500/30",
-  ebook: "bg-blue-500/15 text-blue-300 border-blue-500/30",
-  music: "bg-pink-500/15 text-pink-300 border-pink-500/30",
-  software: "bg-cyan-500/15 text-cyan-300 border-cyan-500/30",
-  general: "bg-gray-500/15 text-gray-300 border-gray-500/30",
+  "torrent-public": "bg-orange-500/10 text-orange-400 border-orange-500/30",
+  "torrent-private": "bg-red-500/10 text-red-400 border-red-500/30",
+  streaming: "bg-purple-500/10 text-purple-400 border-purple-500/30",
+  ebook: "bg-blue-500/10 text-blue-400 border-blue-500/30",
+  music: "bg-pink-500/10 text-pink-400 border-pink-500/30",
+  software: "bg-cyan-500/10 text-cyan-400 border-cyan-500/30",
+  general: "bg-slate-500/10 text-slate-400 border-slate-500/30",
 };
 
 const NOTE_LEGAL = ["100% legal", "legal", "actually legal"];
@@ -46,13 +46,13 @@ function GrayCard({ item }: { item: GrayAlternative }) {
       href={item.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex flex-col gap-2 rounded-xl border border-white/8 bg-white/5 p-3.5 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
+      className="group flex flex-col gap-2 rounded-lg border border-slate-700 bg-slate-800 p-3.5 hover:bg-slate-700 hover:border-slate-600 transition-all duration-200"
     >
       {/* Top row */}
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
           <span className="text-lg shrink-0">{item.logo}</span>
-          <span className="font-bold text-white text-sm leading-tight group-hover:text-orange-300 transition-colors truncate">
+          <span className="font-bold text-white text-sm leading-tight group-hover:text-orange-400 transition-colors truncate">
             {item.name}
           </span>
         </div>
@@ -64,14 +64,14 @@ function GrayCard({ item }: { item: GrayAlternative }) {
       </div>
 
       {/* Description */}
-      <p className="text-xs text-gray-400 leading-relaxed">{item.description}</p>
+      <p className="text-xs text-slate-400 leading-relaxed">{item.description}</p>
 
       {/* Tags */}
       <div className="flex flex-wrap gap-1">
         {item.tags.slice(0, 4).map((tag) => (
           <span
             key={tag}
-            className="rounded-full bg-white/8 px-2 py-0.5 text-xs text-gray-400 font-medium"
+            className="rounded-full bg-slate-700 px-2 py-0.5 text-xs text-slate-400 font-medium"
           >
             {tag}
           </span>
@@ -82,7 +82,7 @@ function GrayCard({ item }: { item: GrayAlternative }) {
       {item.note && (
         <div
           className={`flex items-center gap-1.5 text-xs font-medium ${
-            legal ? "text-green-400" : "text-amber-400"
+            legal ? "text-green-600" : "text-amber-600"
           }`}
         >
           <span>{legal ? "✅" : "ℹ️"}</span>
@@ -91,7 +91,7 @@ function GrayCard({ item }: { item: GrayAlternative }) {
       )}
 
       {/* Visit */}
-      <div className="flex items-center gap-1 text-xs text-orange-400/70 group-hover:text-orange-400 transition-colors mt-auto pt-1">
+      <div className="flex items-center gap-1 text-xs text-orange-600 group-hover:text-orange-700 transition-colors mt-auto pt-1">
         <span className="font-semibold">Visit</span>
         <svg className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
@@ -116,7 +116,7 @@ export default function GrayAlternativesPanel({ sections }: Props) {
       transition={{ duration: 0.3, ease: "easeInOut" }}
       className="overflow-hidden"
     >
-      <div className="border-t border-orange-500/20 bg-gradient-to-b from-orange-950/30 to-gray-950/50 px-5 py-4">
+      <div className="border-t border-slate-700 bg-slate-900/90 px-5 py-4">
         {/* Header */}
         <div className="flex items-center gap-2 mb-4">
           <span className="text-lg">🏴‍☠️</span>
@@ -137,14 +137,14 @@ export default function GrayAlternativesPanel({ sections }: Props) {
               className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all ${
                 activeSection === idx
                   ? "bg-orange-600 text-white shadow-md shadow-orange-900/50"
-                  : "bg-white/8 text-gray-400 hover:bg-white/15 hover:text-white"
+                  : "bg-slate-700 text-slate-400 hover:bg-slate-600 hover:text-white"
               }`}
             >
               <span>{section.emoji}</span>
               <span>{section.title}</span>
               <span
                 className={`rounded-full px-1.5 py-0.5 text-xs font-bold ${
-                  activeSection === idx ? "bg-white/20 text-white" : "bg-white/10 text-gray-500"
+                  activeSection === idx ? "bg-white/20 text-white" : "bg-slate-700/60 text-slate-400"
                 }`}
               >
                 {section.items.length}

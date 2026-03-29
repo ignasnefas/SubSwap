@@ -15,20 +15,20 @@ interface Props {
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
-  Productivity: "bg-violet-500/20 text-violet-300 border-violet-500/30",
-  Design: "bg-pink-500/20 text-pink-300 border-pink-500/30",
-  Communication: "bg-blue-500/20 text-blue-300 border-blue-500/30",
-  "Cloud Storage": "bg-sky-500/20 text-sky-300 border-sky-500/30",
-  Development: "bg-indigo-500/20 text-indigo-300 border-indigo-500/30",
-  Entertainment: "bg-red-500/20 text-red-300 border-red-500/30",
-  "VPN & Security": "bg-green-500/20 text-green-300 border-green-500/30",
-  Analytics: "bg-yellow-500/20 text-yellow-300 border-yellow-500/30",
-  "Email Marketing": "bg-orange-500/20 text-orange-300 border-orange-500/30",
-  "Project Management": "bg-teal-500/20 text-teal-300 border-teal-500/30",
-  CRM: "bg-cyan-500/20 text-cyan-300 border-cyan-500/30",
-  "AI Tools": "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
-  "Web Publishing": "bg-blue-500/20 text-blue-300 border-blue-500/30",
-  Other: "bg-gray-500/20 text-gray-300 border-gray-500/30",
+  Productivity: "bg-slate-700 text-slate-200 border-slate-600",
+  Design: "bg-slate-700 text-slate-200 border-slate-600",
+  Communication: "bg-slate-700 text-slate-200 border-slate-600",
+  "Cloud Storage": "bg-slate-700 text-slate-200 border-slate-600",
+  Development: "bg-slate-700 text-slate-200 border-slate-600",
+  Entertainment: "bg-slate-700 text-slate-200 border-slate-600",
+  "VPN & Security": "bg-slate-700 text-slate-200 border-slate-600",
+  Analytics: "bg-slate-700 text-slate-200 border-slate-600",
+  "Email Marketing": "bg-slate-700 text-slate-200 border-slate-600",
+  "Project Management": "bg-slate-700 text-slate-200 border-slate-600",
+  CRM: "bg-slate-700 text-slate-200 border-slate-600",
+  "AI Tools": "bg-slate-700 text-slate-200 border-slate-600",
+  "Web Publishing": "bg-slate-700 text-slate-200 border-slate-600",
+  Other: "bg-slate-700 text-slate-200 border-slate-600",
 };
 
 export default function SubscriptionCard({ userSub, onRemove, onUpdatePrice, totalMonthly }: Props) {
@@ -96,13 +96,13 @@ export default function SubscriptionCard({ userSub, onRemove, onUpdatePrice, tot
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, x: -40, scale: 0.96 }}
         transition={{ duration: 0.25, ease: "easeOut" }}
-        className="rounded-2xl border border-white/20 bg-white/5 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200 backdrop-blur-sm"
+        className="rounded-lg border border-slate-700 bg-slate-800 overflow-hidden hover:shadow-md transition-shadow duration-200"
       >
         {/* Spend bar */}
         {totalMonthly > 0 && price > 0 && (
-          <div className="h-1 bg-white/10">
+        <div className="h-1 bg-slate-700">
             <motion.div
-              className="h-full bg-gradient-to-r from-violet-500 to-pink-500"
+              className="h-full bg-blue-500"
               initial={{ width: 0 }}
               animate={{ width: `${pct}%` }}
               transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
@@ -122,15 +122,15 @@ export default function SubscriptionCard({ userSub, onRemove, onUpdatePrice, tot
             <div className="flex items-center gap-2 flex-wrap">
               <h3 className="font-bold text-white text-base">{sub.name}</h3>
               {isCustom && (
-                <span className="text-xs rounded-full bg-white/10 px-2 py-0.5 text-white/60 font-medium border border-white/20">custom</span>
+                <span className="text-xs rounded-full bg-slate-700 px-2 py-0.5 text-slate-300 font-medium border border-slate-600">custom</span>
               )}
               <span className={`text-xs rounded-full px-2 py-0.5 font-semibold border ${catColor}`}>
                 {sub.category}
               </span>
             </div>
-            <p className="text-xs text-white/50 truncate mt-0.5">{sub.description}</p>
+            <p className="text-xs text-slate-400 truncate mt-0.5">{sub.description}</p>
             {totalMonthly > 0 && price > 0 && (
-              <p className="text-xs text-white/60 mt-0.5">{pct}% of your total spend</p>
+              <p className="text-xs text-slate-500 mt-0.5">{pct}% of your total spend</p>
             )}
           </div>
 
@@ -139,12 +139,12 @@ export default function SubscriptionCard({ userSub, onRemove, onUpdatePrice, tot
             <div className="text-right">
               {editingPrice ? (
                 <div className="flex items-center gap-1">
-                  <span className="text-white/50 text-sm">$</span>
+                  <span className="text-slate-500 text-sm">$</span>
                   <input
                     type="number"
                     min={0}
                     step={0.01}
-                    className="w-20 rounded-lg border border-violet-400/50 bg-violet-500/20 px-2 py-1 text-sm font-bold text-violet-300 outline-none focus:ring-2 focus:ring-violet-400"
+                    className="w-20 rounded-lg border border-blue-500/50 bg-blue-500/20 px-2 py-1 text-sm font-bold text-blue-300 outline-none focus:ring-2 focus:ring-blue-400"
                     value={priceInput}
                     onChange={(e) => setPriceInput(e.target.value)}
                     onBlur={handlePriceSave}
@@ -157,7 +157,7 @@ export default function SubscriptionCard({ userSub, onRemove, onUpdatePrice, tot
                     }}
                     autoFocus
                   />
-                  <span className="text-white/40 text-xs">/mo</span>
+                  <span className="text-slate-500 text-xs">/mo</span>
                 </div>
               ) : (
                 <button
@@ -169,7 +169,7 @@ export default function SubscriptionCard({ userSub, onRemove, onUpdatePrice, tot
                     {price === 0 ? "Free" : `$${price.toFixed(2)}/mo`}
                   </span>
                   <svg
-                    className="h-3.5 w-3.5 text-white/30 group-hover:text-violet-400 transition-colors"
+                    className="h-3.5 w-3.5 text-slate-500 group-hover:text-blue-400 transition-colors"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -199,7 +199,7 @@ export default function SubscriptionCard({ userSub, onRemove, onUpdatePrice, tot
                 </span>
               )}
               {sub.alternatives.length === 0 && isCustom && (
-                <span className="text-xs bg-white/10 text-white/40 border border-white/20 rounded-full px-2 py-0.5 font-medium">
+                <span className="text-xs bg-slate-700 text-slate-400 border border-slate-600 rounded-full px-2 py-0.5 font-medium">
                   no alts
                 </span>
               )}
@@ -210,7 +210,7 @@ export default function SubscriptionCard({ userSub, onRemove, onUpdatePrice, tot
               {sub.alternatives.length > 0 && (
                 <button
                   onClick={() => setExpanded(!expanded)}
-                  className="rounded-lg p-2 text-white/40 hover:bg-white/10 hover:text-white/70 transition-colors"
+                  className="rounded-lg p-2 text-slate-500 hover:bg-slate-700 hover:text-slate-300 transition-colors"
                   title={expanded ? "Collapse alternatives" : "Show alternatives"}
                 >
                   <motion.svg
@@ -231,13 +231,13 @@ export default function SubscriptionCard({ userSub, onRemove, onUpdatePrice, tot
                 <div className="flex items-center gap-1">
                   <button
                     onClick={onRemove}
-                    className="rounded-lg px-2 py-1.5 text-xs font-semibold bg-red-500 text-white hover:bg-red-600 transition-colors"
+                    className="rounded-lg px-2 py-1.5 text-xs font-semibold bg-red-600 text-white hover:bg-red-700 transition-colors"
                   >
                     Remove
                   </button>
                   <button
                     onClick={() => setConfirmRemove(false)}
-                    className="rounded-lg px-2 py-1.5 text-xs font-semibold text-white/50 hover:bg-white/10 transition-colors"
+                    className="rounded-lg px-2 py-1.5 text-xs font-semibold text-slate-400 hover:bg-slate-700 transition-colors"
                   >
                     Cancel
                   </button>
@@ -245,7 +245,7 @@ export default function SubscriptionCard({ userSub, onRemove, onUpdatePrice, tot
               ) : (
                 <button
                   onClick={() => setConfirmRemove(true)}
-                  className="rounded-lg p-2 text-white/30 hover:bg-red-500/20 hover:text-red-400 transition-colors"
+                  className="rounded-lg p-2 text-slate-500 hover:bg-red-500/20 hover:text-red-400 transition-colors"
                   title="Remove subscription"
                 >
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -268,12 +268,12 @@ export default function SubscriptionCard({ userSub, onRemove, onUpdatePrice, tot
               transition={{ duration: 0.25, ease: "easeInOut" }}
               style={{ overflow: "hidden" }}
             >
-              <div className="border-t border-white/10 bg-gradient-to-b from-white/5 to-white/0 px-5 py-4">
+              <div className="border-t border-slate-700 bg-slate-800 px-5 py-4">
                 <div className="flex items-center justify-between mb-3">
-                  <p className="text-xs font-bold text-white/40 uppercase tracking-widest">
+                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
                     ✅ Better / Free Alternatives
                   </p>
-                  <span className="text-xs text-white/50">{sub.alternatives.length} options</span>
+                  <span className="text-xs text-slate-400">{sub.alternatives.length} options</span>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {sub.alternatives.map((alt) => (
@@ -287,14 +287,14 @@ export default function SubscriptionCard({ userSub, onRemove, onUpdatePrice, tot
 
         {/* Gray Zone toggle button */}
         {graySections.length > 0 && (
-        <div className={`px-5 py-3 flex items-center justify-between ${grayOpen ? "bg-orange-950/50" : "bg-white/5 border-t border-white/10"}`}>
+        <div className={`px-5 py-3 flex items-center justify-between ${grayOpen ? "bg-slate-900 border-t border-orange-800" : "bg-slate-800 border-t border-slate-700"}`}>
           <div className="flex items-center gap-2">
             {grayOpen ? (
-              <span className="text-xs text-orange-400/70">
+              <span className="text-xs text-orange-300">
                 🏴‍☠️ Showing gray zone alternatives — use responsibly
               </span>
             ) : (
-              <span className="text-xs text-white/50">
+              <span className="text-xs text-slate-400">
                 Want more options?
               </span>
             )}
@@ -303,8 +303,8 @@ export default function SubscriptionCard({ userSub, onRemove, onUpdatePrice, tot
             onClick={handleGrayToggle}
             className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition-all ${
               grayOpen
-                ? "bg-orange-600/20 text-orange-400 border border-orange-500/30 hover:bg-orange-600/30"
-                : "bg-gradient-to-r from-orange-600/20 to-red-600/20 text-orange-400 border border-orange-500/40 hover:from-orange-600/30 hover:to-red-600/30"
+                ? "bg-orange-900 text-orange-400 border border-orange-700 hover:bg-orange-800"
+                : "bg-orange-900/30 text-orange-400 border border-orange-700/50 hover:bg-orange-900/50"
             }`}
           >
             <span>🏴‍☠️</span>

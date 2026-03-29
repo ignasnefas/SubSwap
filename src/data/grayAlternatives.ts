@@ -148,8 +148,8 @@ export const PRIVATE_TRACKERS: GrayAlternative[] = [
   },
   {
     name: "Gazelle (What.CD successor) — RED",
-    url: "https://redacted.ch",
-    description: "Redacted.ch is the premier private music tracker. Lossless FLAC, rare pressings, detailed metadata. The best for audiophiles.",
+    url: "https://redacted.sh",
+    description: "redacted.sh is the premier private music tracker. Lossless FLAC, rare pressings, detailed metadata. The best for audiophiles.",
     type: "torrent-private",
     logo: "🎵",
     tags: ["music", "FLAC", "lossless", "audiophile"],
@@ -482,15 +482,15 @@ export function getGrayAltsForSub(subId: string, category: string): GrayAltSecti
   // i.e. content (movies/music/books) and expensive crackable software + games
   
   const isEntertainment = category === "Entertainment" ||
-    ["netflix", "disney", "hbo", "hulu", "amazon-prime"].includes(subId);
+    ["netflix", "disney-plus"].includes(subId);
 
-  const isMusic = ["spotify", "apple-music", "tidal", "deezer", "youtube-music"].includes(subId);
+  const isMusic = ["spotify", "youtube-premium"].includes(subId);
 
-  const isBooks = ["kindle", "audible", "scribd", "oreilly"].includes(subId);
+  const isBooks: boolean = false; // No book subscriptions in the list yet
 
   // Only expensive/crackable software (Adobe, design tools, expensive dev tools)
   const isExpensiveCreackableSoftware = 
-    ["adobe", "figma", "sketch", "autocad", "jetbrains", "microsoft-office"].includes(subId);
+    ["adobe-creative-cloud", "figma", "microsoft365"].includes(subId);
 
   const isGames = category === "Gaming" || 
     ["steam", "epic-games", "xbox-game-pass", "playstation-plus", "nintendo-switch-online", "ubisoft-plus"].includes(subId);

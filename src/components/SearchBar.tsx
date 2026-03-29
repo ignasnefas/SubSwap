@@ -117,9 +117,9 @@ export default function SearchBar({ onAdd, addedIds }: Props) {
   return (
     <>
       <div ref={ref} className="relative w-full max-w-lg mx-auto">
-        <div className="flex items-center gap-3 rounded-2xl border border-white/20 bg-white/10 px-4 py-3.5 shadow-xl backdrop-blur-sm ring-1 ring-white/10 focus-within:ring-2 focus-within:ring-violet-400 transition-all duration-200">
+        <div className="flex items-center gap-3 rounded-lg border border-slate-700 bg-slate-800 px-4 py-3.5 shadow-md ring-1 ring-slate-700 focus-within:ring-2 focus-within:ring-blue-400 transition-all duration-200">
           <svg
-            className="h-5 w-5 text-white/50 shrink-0"
+            className="h-5 w-5 text-slate-500 shrink-0"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -130,7 +130,7 @@ export default function SearchBar({ onAdd, addedIds }: Props) {
           </svg>
           <input
             ref={inputRef}
-            className="flex-1 bg-transparent text-white placeholder-white/40 outline-none text-sm"
+            className="flex-1 bg-transparent text-white placeholder-slate-500 outline-none text-sm"
             placeholder="Search subscriptions — Notion, Spotify, Adobe…"
             value={query}
             onChange={(e) => {
@@ -149,7 +149,7 @@ export default function SearchBar({ onAdd, addedIds }: Props) {
                   setOpen(false);
                   inputRef.current?.focus();
                 }}
-                className="text-white/40 hover:text-white transition-colors"
+                className="text-slate-500 hover:text-slate-400 transition-colors"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -158,7 +158,7 @@ export default function SearchBar({ onAdd, addedIds }: Props) {
             )}
             <button
               onClick={() => setShowCustom(true)}
-              className="flex items-center gap-1.5 rounded-xl bg-white/15 hover:bg-violet-500 px-3 py-1.5 text-xs font-semibold text-white/80 hover:text-white transition-all duration-200"
+              className="flex items-center gap-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 px-3 py-1.5 text-xs font-semibold text-white transition-all duration-200"
               title="Add custom subscription"
             >
               <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -170,17 +170,17 @@ export default function SearchBar({ onAdd, addedIds }: Props) {
         </div>
 
         {open && results.length > 0 && (
-          <ul className="absolute z-50 mt-2 w-full rounded-2xl border border-white/20 bg-slate-800 shadow-2xl overflow-hidden divide-y divide-white/10 backdrop-blur-sm">
+          <ul className="absolute z-50 mt-2 w-full rounded-lg border border-slate-700 bg-slate-800 shadow-lg overflow-hidden divide-y divide-slate-700">
             {query.trim() === "" && (
-              <li className="px-4 py-2 bg-white/5">
-                <span className="text-xs text-white/40 font-semibold uppercase tracking-wider">Popular</span>
+              <li className="px-4 py-2 bg-slate-900">
+                <span className="text-xs text-slate-500 font-semibold uppercase tracking-wider">Popular</span>
               </li>
             )}
             {results.map((sub, i) => (
               <li key={sub.id}>
                 <button
                   className={`flex w-full items-center gap-3 px-4 py-3 text-left transition-colors ${
-                    i === highlightIndex ? "bg-white/15" : "hover:bg-white/10"
+                    i === highlightIndex ? "bg-slate-700" : "hover:bg-slate-700/50"
                   }`}
                   onMouseEnter={() => setHighlightIndex(i)}
                   onClick={() => handleSelect(sub)}
@@ -192,13 +192,13 @@ export default function SearchBar({ onAdd, addedIds }: Props) {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-white text-sm leading-tight">{sub.name}</p>
-                    <p className="text-xs text-white/50 truncate mt-0.5">{sub.description}</p>
+                    <p className="text-xs text-slate-400 truncate mt-0.5">{sub.description}</p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="text-xs bg-white/10 text-white/70 rounded-full px-2 py-0.5">
+                    <span className="text-xs bg-slate-700 text-slate-400 rounded-full px-2 py-0.5">
                       {CATEGORY_ICONS[sub.category] ?? "📦"} {sub.category}
                     </span>
-                    <span className="text-xs font-bold text-violet-600 min-w-[48px] text-right">
+                    <span className="text-xs font-bold text-blue-600 min-w-[48px] text-right">
                       {sub.avgPrice === 0 ? "Free" : `~$${sub.avgPrice}/mo`}
                     </span>
                   </div>

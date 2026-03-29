@@ -3,10 +3,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { SUBSCRIPTIONS, CATEGORIES, Subscription } from "./data/subscriptions";
 import { UserSubscription } from "./types";
 import { useLocalStorage } from "./hooks/useLocalStorage";
-import SearchBar from "./components/SearchBar";
 import SubscriptionCard from "./components/SubscriptionCard";
 import StatsBar from "./components/StatsBar";
-import EmptyState from "./components/EmptyState";
 import CategoryFilter from "./components/CategoryFilter";
 import SavingsReport from "./components/SavingsReport";
 import GrayZoneExplorer from "./components/GrayZoneExplorer";
@@ -33,7 +31,6 @@ const CAT_ICONS: Record<string, string> = {
 export default function App() {
   const [userSubs, setUserSubs] = useLocalStorage<UserSubscription[]>("subswap-subs", []);
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
-  const [sortBy, setSortBy] = useState<"name" | "price" | "alts">("price");
   const [browseCategory, setBrowseCategory] = useState<string>(CATEGORIES[0]);
   const [grayExplorerOpen, setGrayExplorerOpen] = useState(false);
 
@@ -89,57 +86,21 @@ export default function App() {
     [userSubs]
   );
 
-  // ── Filter + sort ────────────────────────────────────────────────────────
+  // ── Filter ───────────────────────────────────────────────────────────────
   const filtered = useMemo(() => {
-    let list = categoryFilter
+    return categoryFilter
       ? userSubs.filter((u) => u.sub.category === categoryFilter)
       : userSubs;
-    if (sortBy === "price") list = [...list].sort((a, b) => b.price - a.price);
-    if (sortBy === "name")
-      list = [...list].sort((a, b) => a.sub.name.localeCompare(b.sub.name));
-    if (sortBy === "alts")
-      list = [...list].sort(
-        (a, b) => b.sub.alternatives.length - a.sub.alternatives.length
-      );
-    return list;
-  }, [userSubs, categoryFilter, sortBy]);
+  }, [userSubs, categoryFilter]);
 
   // ── Browse subs ──────────────────────────────────────────────────────────
   const browseSubs = SUBSCRIPTIONS.filter((s) => s.category === browseCategory);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-violet-950 to-slate-900">
+    <div className="min-h-screen bg-slate-900">
       {/* ── Header ── */}
-      <header className="relative overflow-hidden px-4 pt-14 pb-24">
-        <div className="absolute -top-32 -left-24 h-96 w-96 rounded-full bg-violet-500/15 blur-3xl pointer-events-none" />
-        <div className="absolute top-0 right-0 h-72 w-72 rounded-full bg-pink-500/10 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/2 h-48 w-96 -translate-x-1/2 rounded-full bg-cyan-500/8 blur-3xl pointer-events-none" />
-
-        <div className="relative mx-auto max-w-4xl text-center">
-          {/* Badge row */}
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-wrap items-center justify-center gap-3 mb-6"
-          >
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-white/60 backdrop-blur-sm">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
-              </span>
-              {SUBSCRIPTIONS_COUNT}+ subscriptions tracked · Free forever · No account needed
-            </div>
-            <button
-              onClick={() => setGrayExplorerOpen(true)}
-              className="inline-flex items-center gap-2 rounded-full border border-orange-500/40 bg-orange-500/10 px-4 py-1.5 text-xs font-bold text-orange-400 hover:bg-orange-500/20 hover:border-orange-400/60 transition-all backdrop-blur-sm"
-            >
-              <span>🏴‍☠️</span>
-              Gray Zone Explorer
-              <span className="rounded-full bg-orange-500/20 px-1.5 py-0.5 text-orange-300 text-xs">NEW</span>
-            </button>
-          </motion.div>
-
+      <header className="border-b border-slate-800 px-4 py-16">
+        <div className="mx-auto max-w-4xl text-center">
           {/* Title */}
           <motion.h1
             initial={{ opacity: 0, y: 10 }}
@@ -147,34 +108,23 @@ export default function App() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-4"
           >
-            Stop overpaying for{" "}
-            <span className="bg-gradient-to-r from-violet-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
-              subscriptions
-            </span>
+            SubSwap
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-white/55 text-lg max-w-xl mx-auto mb-10 leading-relaxed"
+            className="text-slate-400 text-lg max-w-xl mx-auto mb-0 leading-relaxed"
           >
-            Scan your subscriptions and instantly discover free, open-source, or cheaper
-            alternatives that do the same job.
-          </motion.p>
+            Helping you break free from subscription overload
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <SearchBar onAdd={handleAdd} addedIds={addedIds} />
-          </motion.div>
+          </motion.p>
         </div>
       </header>
 
       {/* ── Main ── */}
-      <main className="mx-auto max-w-5xl px-4 pb-28 -mt-6">
+      <main className="mx-auto max-w-5xl px-4 pb-28 pt-8">
         <AnimatePresence mode="wait">
           {hasSubs ? (
             <motion.div
@@ -195,36 +145,6 @@ export default function App() {
                 />
               </div>
 
-              {/* Savings callout */}
-              <AnimatePresence>
-                {potentialSavings > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="mb-5"
-                  >
-                    <div className="flex items-center gap-3 rounded-2xl border border-green-500/30 bg-green-950/40 px-5 py-3.5">
-                      <span className="text-2xl shrink-0">💡</span>
-                      <div className="flex-1">
-                        <p className="text-sm text-green-300 font-medium">
-                          <strong>Switching to free alternatives</strong> could save you{" "}
-                          <strong className="text-green-400">${potentialSavings.toFixed(2)}/month</strong>{" "}
-                          — that's{" "}
-                          <strong className="text-green-400">${(potentialSavings * 12).toFixed(0)}/year</strong>{" "}
-                          back in your pocket.
-                        </p>
-                      </div>
-                      <SavingsReport
-                        userSubs={userSubs}
-                        totalMonthly={totalMonthly}
-                        potentialSavings={potentialSavings}
-                      />
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
               {/* Controls */}
               <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <CategoryFilter
@@ -232,18 +152,6 @@ export default function App() {
                   onChange={setCategoryFilter}
                   userSubs={userSubs}
                 />
-                <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-xs text-gray-400 whitespace-nowrap">Sort:</span>
-                  <select
-                    className="rounded-xl border border-white/20 bg-white/10 px-3 py-1.5 text-xs text-white/80 outline-none focus:ring-2 focus:ring-violet-400 cursor-pointer backdrop-blur-sm"
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as "name" | "price" | "alts")}
-                  >
-                    <option value="price" className="bg-slate-900">Price (highest)</option>
-                    <option value="name" className="bg-slate-900">Name (A–Z)</option>
-                    <option value="alts" className="bg-slate-900">Most alternatives</option>
-                  </select>
-                </div>
               </div>
 
               {/* Cards */}
@@ -282,14 +190,14 @@ export default function App() {
               )}
 
               {/* Browse More Subscriptions */}
-              <div className="mt-12 pt-8 border-t border-white/10">
+              <div className="mt-12 pt-8 border-t border-slate-800">
                 <motion.div
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
                 >
                   <h2 className="text-xl font-black text-white mb-1">Add More Subscriptions</h2>
-                  <p className="text-sm text-white/40 mb-5">
+                  <p className="text-sm text-slate-400 mb-5">
                     Browse by category to find and add more subscriptions to track.
                   </p>
 
@@ -301,8 +209,8 @@ export default function App() {
                         onClick={() => setBrowseCategory(cat)}
                         className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-all ${
                           browseCategory === cat
-                            ? "bg-violet-600 text-white shadow-lg shadow-violet-900/50"
-                            : "bg-white/10 text-white/60 hover:bg-white/20 hover:text-white"
+                            ? "bg-blue-600 text-white shadow-lg shadow-blue-900/50"
+                            : "bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-300"
                         }`}
                       >
                         <span>{CAT_ICONS[cat] ?? "📦"}</span>
@@ -326,10 +234,10 @@ export default function App() {
                             transition={{ duration: 0.2 }}
                             disabled={added}
                             onClick={() => !added && handleAdd({ sub, price: sub.avgPrice })}
-                            className={`flex items-center gap-3 rounded-2xl border p-4 text-left transition-all ${
+                            className={`flex items-center gap-3 rounded-lg border p-4 text-left transition-all ${
                               added
-                                ? "border-green-400/30 bg-green-500/10 cursor-default opacity-70"
-                                : "border-white/10 bg-white/5 hover:bg-white/10 hover:border-violet-400/40 cursor-pointer"
+                                ? "border-green-600 bg-green-900/30 cursor-default opacity-70"
+                                : "border-slate-700 bg-slate-800 hover:bg-slate-700 hover:border-blue-600 cursor-pointer"
                             }`}
                           >
                             <div
@@ -339,7 +247,7 @@ export default function App() {
                             </div>
                             <div className="flex-1 min-w-0">
                               <p className="font-bold text-white text-sm">{sub.name}</p>
-                              <p className="text-xs text-white/50 truncate">{sub.description}</p>
+                              <p className="text-xs text-slate-400 truncate">{sub.description}</p>
                             </div>
                             {added && <span className="text-green-400 text-xs font-bold shrink-0">✓ Added</span>}
                           </motion.button>
@@ -359,13 +267,13 @@ export default function App() {
               transition={{ duration: 0.3 }}
               className="mt-2"
             >
-              <EmptyState onAdd={handleAdd} addedIds={addedIds} />
               <BrowseAll
                 onAdd={handleAdd}
                 addedIds={addedIds}
                 activeCategory={browseCategory}
                 setCategory={setBrowseCategory}
                 browseSubs={browseSubs}
+                onOpenGrayZone={() => setGrayExplorerOpen(true)}
               />
             </motion.div>
           )}
@@ -373,20 +281,11 @@ export default function App() {
       </main>
 
       {/* ── Footer ── */}
-      <footer className="border-t border-white/5 px-4 py-10 text-center">
-        <p className="text-xs text-white/20 mb-1">
-          SubSwap · Helping you break free from subscription overload
+      <footer className="border-t border-slate-800 px-4 py-10 text-center">
+        <p className="text-xs text-slate-400 mb-1">
+           <a href="https://nefas.tv" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300">Author Website</a>
         </p>
-        <p className="text-xs text-white/12 mb-4">
-          All alternatives are community-verified free, open-source, or genuinely cheaper options.
-        </p>
-        <button
-          onClick={() => setGrayExplorerOpen(true)}
-          className="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/8 px-4 py-2 text-xs font-semibold text-orange-400/70 hover:text-orange-400 hover:bg-orange-500/15 transition-all"
-        >
-          <span>🏴‍☠️</span>
-          Explore Gray Zone Alternatives
-        </button>
+        
       </footer>
 
       {/* ── Gray Zone Explorer ── */}
@@ -405,12 +304,14 @@ function BrowseAll({
   activeCategory,
   setCategory,
   browseSubs,
+  onOpenGrayZone,
 }: {
   onAdd: (us: UserSubscription) => void;
   addedIds: string[];
   activeCategory: string;
   setCategory: (c: string) => void;
   browseSubs: Subscription[];
+  onOpenGrayZone: () => void;
 }) {
   return (
     <motion.div
@@ -419,27 +320,30 @@ function BrowseAll({
       transition={{ duration: 0.4, delay: 0.15 }}
       className="mt-10"
     >
-      <h2 className="text-xl font-black text-white mb-1">Browse by Category</h2>
-      <p className="text-sm text-white/40 mb-5">
-        Click any card to add it to your tracker instantly.
-      </p>
-
       {/* Category tabs */}
-      <div className="flex flex-wrap gap-2 mb-6">
+      <div className="flex flex-wrap gap-2 mb-6 items-center">
         {CATEGORIES.map((cat) => (
           <button
             key={cat}
             onClick={() => setCategory(cat)}
             className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-all ${
               activeCategory === cat
-                ? "bg-violet-600 text-white shadow-lg shadow-violet-900/50"
-                : "bg-white/10 text-white/60 hover:bg-white/20 hover:text-white"
+                ? "bg-blue-600 text-white shadow-lg shadow-blue-900/50"
+                : "bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-300"
             }`}
           >
             <span>{CAT_ICONS[cat] ?? "📦"}</span>
             {cat}
           </button>
         ))}
+
+        <button
+          onClick={onOpenGrayZone}
+          className="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1.5 text-xs font-semibold text-orange-400 hover:text-orange-300 hover:bg-orange-500/20 transition-all"
+        >
+          <span>🏴‍☠️</span>
+          Gray Zone
+        </button>
       </div>
 
       {/* Sub grid */}

@@ -51,24 +51,21 @@ export default function StatsBar({
         label="Monthly spend"
         value={totalMonthly === 0 ? "—" : `$${animMonthly.toFixed(2)}`}
         sub="tracked subs"
-        gradient="from-violet-500 to-purple-600"
-        accent="violet"
+        accent="blue"
       />
       <StatCard
         icon="📅"
         label="Yearly spend"
         value={totalMonthly === 0 ? "—" : `$${animYearly.toFixed(0)}`}
         sub="projected cost"
-        gradient="from-pink-500 to-rose-600"
-        accent="pink"
+        accent="slate"
       />
       <StatCard
         icon="💡"
         label="Potential savings"
         value={potentialSavings === 0 ? "—" : `$${animSavings.toFixed(2)}/mo`}
         sub="if you switch to free"
-        gradient="from-amber-400 to-orange-500"
-        accent="amber"
+        accent="green"
         highlight
       />
       <StatCard
@@ -76,7 +73,6 @@ export default function StatsBar({
         label="Free alternatives"
         value={`${Math.round(animFree)}`}
         sub={`across ${totalSubs} sub${totalSubs !== 1 ? "s" : ""}`}
-        gradient="from-green-500 to-emerald-600"
         accent="green"
       />
       <StatCard
@@ -84,7 +80,6 @@ export default function StatsBar({
         label="Open source"
         value={`${Math.round(animOS)}`}
         sub="privacy-respecting"
-        gradient="from-blue-500 to-cyan-600"
         accent="blue"
       />
     </div>
@@ -96,37 +91,34 @@ function StatCard({
   label,
   value,
   sub,
-  gradient,
+  accent,
   highlight = false,
 }: {
   icon: string;
   label: string;
   value: string;
   sub: string;
-  gradient: string;
   accent: string;
   highlight?: boolean;
 }) {
   return (
     <div
-      className={`relative overflow-hidden rounded-2xl border bg-white/5 shadow-sm p-4 flex flex-col gap-1 transition-all duration-300 backdrop-blur-sm ${
+      className={`relative overflow-hidden rounded-lg border bg-slate-800 shadow-sm p-4 flex flex-col gap-1 transition-all duration-300 ${
         highlight && value !== "—"
-          ? "border-amber-500/30 shadow-amber-500/10 shadow-md"
-          : "border-white/20"
+          ? "border-green-800 shadow-green-900/50 shadow-md"
+          : "border-slate-700"
       }`}
     >
-      <div className={`absolute -right-6 -top-6 h-20 w-20 rounded-full bg-gradient-to-br ${gradient} opacity-[0.15]`} />
-      <div className={`absolute -left-3 -bottom-3 h-14 w-14 rounded-full bg-gradient-to-br ${gradient} opacity-[0.1]`} />
       <span className="text-xl relative">{icon}</span>
-      <p className="text-xs text-white/50 font-semibold mt-0.5 relative">{label}</p>
+      <p className="text-xs text-slate-400 font-semibold mt-0.5 relative">{label}</p>
       <p
         className={`text-xl font-black leading-tight relative ${
-          highlight && value !== "—" ? "text-amber-400" : "text-white"
+          highlight && value !== "—" ? "text-green-400" : "text-white"
         }`}
       >
         {value}
       </p>
-      <p className="text-xs text-white/50 relative">{sub}</p>
+      <p className="text-xs text-slate-400 relative">{sub}</p>
     </div>
   );
 }
