@@ -2,6 +2,10 @@
 
 SubSwap is a polished React + Vite dashboard that helps you compare subscription services, track monthly spend, and discover lower-cost or free alternatives.
 
+## Screenshot
+
+![SubSwap Screenshot](src/screenshot.png)
+
 ## Features
 
 - Add subscriptions from curated categories.
